@@ -714,14 +714,14 @@ body.template-page-gift-guide [id*="shopify-section-header"] {
     min-height: calc(100vh - 65px);
   }
   
-  /* Mobile Background - Use separate mobile image */
+  /* Mobile Background - Use Frame.png from assets */
   .hero-bg-illustration.top-illustration {
     top: -50px;
     left: 50%;
     transform: translateX(-50%) scale(1.2);
     width: 150%;
     max-width: none;
-    background: url('{{ "Frame.jpg" | asset_img_url }}') no-repeat center center;
+    background: url(Frame.png) no-repeat center center;
     background-size: cover;
   }
   
@@ -960,7 +960,7 @@ body.template-page-gift-guide [id*="shopify-section-header"] {
     left: 50%;
     transform: translateX(-50%) scale(1.3);
     width: 160%;
-    background: url('{{ "Frame.jpg" | asset_img_url }}') no-repeat center center;
+    background: url(Frame.png) no-repeat center center;
     background-size: cover;
   }
   
@@ -1074,7 +1074,7 @@ body.template-page-gift-guide [id*="shopify-section-header"] {
     left: 50%;
     transform: translateX(-50%) scale(1.4);
     width: 170%;
-    background: url('{{ "Frame.jpg" | asset_img_url }}') no-repeat center center;
+    background: url(Frame.png) no-repeat center center;
     background-size: cover;
   }
   
