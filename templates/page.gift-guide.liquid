@@ -1,23 +1,53 @@
 {% comment %}
   Template: page.gift-guide.liquid
   This template should be placed in /templates/ folder
+  Modified to support multiple instances and prevent conflicts
 {% endcomment %}
 
-<!-- Add body class for CSS targeting -->
+<!-- Add unique body class for CSS targeting -->
 <script>
   document.body.classList.add('template-page-gift-guide');
+  // Add unique identifier for this specific page instance
+  document.body.setAttribute('data-gift-guide-id', '{{ page.handle | default: 'default' }}');
 </script>
 
-<!-- Load custom CSS -->
+<!-- Load custom CSS with cache busting -->
 {{ 'gift-guide-custom.css' | asset_url | stylesheet_tag }}
 
-<!-- Gift Guide Hero Section -->
-{% section 'gift-guide-hero' %}
-{% section 'gift-guide-hero' %}
+<!-- Gift Guide Wrapper with unique ID -->
+<div id="gift-guide-{{ page.handle | default: 'default' }}" class="gift-guide-container">
+  
+  <!-- Gift Guide Hero Section -->
+  {% section 'gift-guide-hero' %}
+  
+  <!-- Gift Guide Products Section -->
+  {% section 'gift-guide-products' %}
+  
+  <!-- Additional sections can be added here -->
+  {% comment %}
+  Examples of additional sections you can duplicate:
+  {% section 'gift-guide-categories' %}
+  {% section 'gift-guide-featured' %}
+  {% section 'gift-guide-testimonials' %}
+  {% endcomment %}
 
+</div>
 
-<!-- Gift Guide Products Section -->
-{% section 'gift-guide-products' %}
+<!-- Load custom JavaScript with namespace support -->
+<script>
+  // Create namespace for this gift guide instance
+  window.GiftGuide = window.GiftGuide || {};
+  window.GiftGuide['{{ page.handle | default: "default" }}'] = {};
+</script>
 
-<!-- Load custom JavaScript -->
 <script src="{{ 'gift-guide-custom.js' | asset_url }}" defer></script>
+
+<!-- Initialize this specific gift guide instance -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize gift guide with unique identifier
+    if (typeof initGiftGuide === 'function') {
+      initGiftGuide('{{ page.handle | default: "default" }}');
+    }
+  });
+</script>
