@@ -175,6 +175,21 @@
       "default": "scheme-1"
     },
     {
+      "type": "header",
+      "content": "Visibility Settings"
+    },
+    {
+      "type": "select",
+      "id": "visibility_option",
+      "label": "Display banner on",
+      "default": "both",
+      "options": [
+        {"value": "desktop", "label": "Desktop only" },
+        {"value": "mobile", "label": "Mobile only" },
+        {"value": "both", "label": "Both desktop and mobile" }
+      ]
+    },
+    {
       "type": "text",
       "id": "bottom_text",
       "label": "Bottom Text",
@@ -406,10 +421,11 @@
 {%- endstyle -%}
 
 {%- liquid
+  assign visibility = section.settings.visibility_option
   assign full_width = '100vw'
   assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
   assign half_width = '50vw'
-
+  
   
   assign fetch_priority = 'auto'
   if section.index == 1
@@ -452,7 +468,7 @@
   <!-- Hero Banner Section -->
   <div
     id="Banner-{{ section.id }}"
-    class="banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %}"
+    class="visibility-{{ visibility }}-{{ section.id }} banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %}"
   >
     {%- if section.settings.image != blank -%}
       <div class="banner__media media{% if section.settings.image_2 != blank %} banner__media-half{% endif %}">
@@ -585,3 +601,16 @@
 
 <!-- Product Modal -->
 {% render 'product-modal' %}
+
+<style>
+@media screen and (min-width: 768px) {
+.visibility-mobile-{{section.id}} {
+display: none !important;
+}
+}
+@media screen and (max-width: 767px) {
+.visibility-desktop-{{section.id}} {
+display: none !important;
+}
+}
+</style>
