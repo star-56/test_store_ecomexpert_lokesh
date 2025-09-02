@@ -220,6 +220,18 @@
       },
       "hero-image-banner": {
         "type": "hero-image-banner",
+        "blocks": {
+          "heading_xYNPHq": {
+            "type": "heading",
+            "settings": {
+              "heading": "The Gift Guide",
+              "heading_size": "h1"
+            }
+          }
+        },
+        "block_order": [
+          "heading_xYNPHq"
+        ],
         "settings": {
           "visibility_option": "desktop",
           "image": "shopify://shop_images/Group_1000008197.png",
