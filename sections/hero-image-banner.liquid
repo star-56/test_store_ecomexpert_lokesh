@@ -53,7 +53,26 @@
 -%}
 
 
-
+<!-- Hide Global Header Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Hide the global header on this page
+    const globalHeader = document.querySelector('.header-wrapper') || 
+                         document.querySelector('header') || 
+                         document.querySelector('.site-header') ||
+                         document.querySelector('[id*="shopify-section-header"]');
+    if (globalHeader) {
+      globalHeader.style.display = 'none';
+    }
+    
+    // Also hide any sticky header
+    const stickyHeader = document.querySelector('.header-sticky') || 
+                        document.querySelector('.sticky-header');
+    if (stickyHeader) {
+      stickyHeader.style.display = 'none';
+    }
+  });
+</script>
 
 
 <div

@@ -217,6 +217,23 @@
           "collection": "",
           "products_limit": 6
         }
+      },
+      "hero-image-banner": {
+        "type": "hero-image-banner",
+        "settings": {
+          "visibility_option": "desktop",
+          "image": "shopify://shop_images/Group_1000008197.png",
+          "image_overlay_opacity": 0,
+          "image_height": "medium",
+          "image_behavior": "none",
+          "desktop_content_position": "middle-center",
+          "desktop_content_alignment": "center",
+          "show_text_box": true,
+          "color_scheme": "",
+          "stack_images_on_mobile": true,
+          "mobile_content_alignment": "center",
+          "show_text_below": true
+        }
       }
     },
     "content_for_index": [],
