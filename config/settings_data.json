@@ -141,20 +141,40 @@
       },
       "gift-guide-hero": {
         "type": "gift-guide-hero",
+        "blocks": {
+          "heading_nMwECG": {
+            "type": "heading",
+            "settings": {
+              "heading": "The Gift Guide",
+              "heading_size": "h1"
+            }
+          },
+          "text_3DQVbM": {
+            "type": "text",
+            "settings": {
+              "text": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
+              "text_style": "subtitle"
+            }
+          }
+        },
+        "block_order": [
+          "heading_nMwECG",
+          "text_3DQVbM"
+        ],
         "settings": {
           "brand_name": "TISSO VISON",
           "top_banner_text": "Find the ideal gift for your loved ones.",
           "top_banner_button_text": "CHOOSE GIFT",
           "top_banner_button_link": "shopify://collections/all",
-          "image_2": "shopify://shop_images/Frame.jpg",
+          "image": "shopify://shop_images/Group_1000008197.png",
           "image_overlay_opacity": 0,
           "image_height": "medium",
-          "desktop_content_position": "middle-center",
-          "desktop_content_alignment": "center",
+          "desktop_content_position": "bottom-left",
+          "desktop_content_alignment": "left",
           "mobile_content_alignment": "center",
-          "show_text_box": true,
-          "color_scheme": "",
-          "visibility_option": "mobile",
+          "show_text_box": false,
+          "color_scheme": "scheme-2",
+          "visibility_option": "desktop",
           "bottom_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
         }
       },
