@@ -146,15 +146,15 @@
           "top_banner_text": "Find the ideal gift for your loved ones.",
           "top_banner_button_text": "CHOOSE GIFT",
           "top_banner_button_link": "shopify://collections/all",
-          "image_2": "shopify://shop_images/Frame.png",
+          "image": "shopify://shop_images/Group_1000008197.png",
           "image_overlay_opacity": 0,
-          "image_height": "large",
+          "image_height": "medium",
           "desktop_content_position": "middle-center",
           "desktop_content_alignment": "center",
           "mobile_content_alignment": "center",
           "show_text_box": true,
           "color_scheme": "",
-          "visibility_option": "mobile",
+          "visibility_option": "desktop",
           "bottom_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
         }
       },
