@@ -1,0 +1,283 @@
+{% schema %}
+{
+  "name": "Gift Guide Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Top Banner Settings"
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand Name",
+      "default": "TISSO VISON"
+    },
+    {
+      "type": "text",
+      "id": "top_banner_text",
+      "label": "Top Banner Text",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "text",
+      "id": "top_banner_button_text",
+      "label": "Top Banner Button Text",
+      "default": "CHOOSE GIFT"
+    },
+    {
+      "type": "url",
+      "id": "top_banner_button_link",
+      "label": "Top Banner Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Hero Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main Title",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_illustration",
+      "label": "Hero Illustration"
+    },
+    {
+      "type": "text",
+      "id": "bottom_text",
+      "label": "Bottom Text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Product Hotspot",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "range",
+          "id": "position_x",
+          "label": "Horizontal Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "position_y",
+          "label": "Vertical Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gift Guide Hero"
+    }
+  ]
+}
+{% endschema %}
+
+<!-- Hide Global Header Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Hide the global header on this page
+    const globalHeader = document.querySelector('.header-wrapper') || 
+                         document.querySelector('header') || 
+                         document.querySelector('.site-header') ||
+                         document.querySelector('[id*="shopify-section-header"]');
+    if (globalHeader) {
+      globalHeader.style.display = 'none';
+    }
+    
+    // Also hide any sticky header
+    const stickyHeader = document.querySelector('.header-sticky') || 
+                        document.querySelector('.sticky-header');
+    if (stickyHeader) {
+      stickyHeader.style.display = 'none';
+    }
+  });
+</script>
+
+<section class="gift-guide-hero">
+  <!-- Custom Top Banner/Navbar -->
+  <div class="top-banner">
+    <div class="banner-content">
+      <!-- Mobile hamburger menu -->
+      <div class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      
+      <h1 class="brand-name">{{ section.settings.brand_name }}</h1>
+      <p class="banner-text">{{ section.settings.top_banner_text }}</p>
+      <a href="{{ section.settings.top_banner_button_link }}" class="choose-gift-btn">
+        {{ section.settings.top_banner_button_text }}
+        <span class="arrow-line"></span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <button class="mobile-menu-close" id="mobileMenuClose">&times;</button>
+    <div class="mobile-menu-content">
+      <div class="mobile-menu-brand">{{ section.settings.brand_name }}</div>
+      <div class="mobile-menu-text">{{ section.settings.top_banner_text }}</div>
+      <a href="{{ section.settings.top_banner_button_link }}" class="mobile-menu-cta">
+        {{ section.settings.top_banner_button_text }}
+      </a>
+    </div>
+  </div>
+
+  <!-- Hero Content -->
+  <div class="hero-main-wrapper">
+    <!-- Background Illustrations -->
+    <div class="hero-bg-illustration top-illustration">
+      {% if section.settings.hero_illustration != blank %}
+        {{ section.settings.hero_illustration | image_url: width: 1200 | image_tag: class: 'bg-illustration' }}
+      {% else %}
+        {% comment %} <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+          <!-- Gift-related icons pattern -->
+          <g fill="none" stroke="#000" stroke-width="1.5" opacity="0.8">
+            <!-- Camera -->
+            <rect x="100" y="150" width="80" height="60" rx="8"/>
+            <circle cx="140" cy="180" r="15"/>
+            <rect x="120" y="135" width="40" height="15" rx="3"/>
+            
+            <!-- Sunglasses -->
+            <ellipse cx="50" cy="100" rx="25" ry="15"/>
+            <ellipse cx="110" cy="100" rx="25" ry="15"/>
+            <line x1="75" y1="100" x2="85" y2="100"/>
+            
+            <!-- Watch -->
+            <rect x="600" y="400" width="60" height="80" rx="30"/>
+            <circle cx="630" cy="440" r="20"/>
+            <line x1="630" y1="440" x2="640" y2="430"/>
+            <line x1="630" y1="440" x2="630" y2="425"/>
+            
+            <!-- Notebook -->
+            <rect x="800" y="100" width="60" height="80"/>
+            <line x1="810" y1="120" x2="850" y2="120"/>
+            <line x1="810" y1="135" x2="850" y2="135"/>
+            <line x1="810" y1="150" x2="850" y2="150"/>
+            
+            <!-- Compass -->
+            <circle cx="500" cy="300" r="30"/>
+            <polygon points="500,280 505,295 500,310 495,295" fill="#000"/>
+            <text x="500" y="325" text-anchor="middle" font-size="8" fill="#000">N</text>
+            
+            <!-- Lens/Magnifying -->
+            <circle cx="300" cy="500" r="25"/>
+            <line x1="320" y1="520" x2="340" y2="540" stroke-width="3"/>
+            
+            <!-- Additional scattered elements -->
+            <circle cx="950" cy="250" r="8"/>
+            <circle cx="200" cy="400" r="12"/>
+            <rect x="400" y="150" width="15" height="40"/>
+            <ellipse cx="700" cy="600" rx="20" ry="30"/>
+            
+            <!-- Bow tie -->
+            <path d="M600 200 L620 190 L640 200 L630 210 L620 205 L610 210 Z"/>
+            
+            <!-- Additional cameras and lenses -->
+            <rect x="900" y="400" width="70" height="50" rx="5"/>
+            <circle cx="935" cy="425" r="12"/>
+            
+            <!-- More accessories -->
+            <rect x="350" y="350" width="40" height="60" rx="20"/>
+            <circle cx="370" cy="380" r="8"/>
+          </g>
+        </svg> {% endcomment %}
+      {% endif %}
+    </div>
+
+    <div class="hero-bg-illustration bottom-illustration">
+      {% comment %} <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+        <!-- Additional background pattern for bottom -->
+        <g fill="none" stroke="#000" stroke-width="1.5" opacity="0.6">
+          <!-- More gift items scattered -->
+          <rect x="50" y="50" width="80" height="100" rx="5"/>
+          <circle cx="90" cy="100" r="20"/>
+          <rect x="200" y="150" width="60" height="40" rx="10"/>
+          <ellipse cx="400" cy="200" rx="30" ry="20"/>
+          <rect x="500" y="100" width="50" height="70" rx="25"/>
+          <line x1="600" y1="180" x2="650" y2="180"/>
+          <line x1="600" y1="195" x2="650" y2="195"/>
+          <circle cx="750" cy="150" r="15"/>
+          <rect x="800" y="250" width="45" height="65" rx="8"/>
+        </g>
+      </svg> {% endcomment %}
+    </div>
+
+    <div class="hero-content-container">
+      <div class="hero-content">
+        <div class="hero-text-section">
+          <h2 class="main-title">{{ section.settings.main_title }}</h2>
+          <p class="subtitle">{{ section.settings.subtitle }}</p>
+          <a href="{{ section.settings.button_link }}" class="cta-button">
+            {{ section.settings.button_text }}
+            <span class="button-arrow">→</span>
+          </a>
+        </div>
+        
+        <!-- Product Hotspots -->
+        <div class="hotspots-container">
+          {% for block in section.blocks %}
+            {% if block.type == 'hotspot' and block.settings.product %}
+              {% assign product = block.settings.product %}
+              <button 
+                class="product-hotspot" 
+                data-product-id="{{ product.id }}"
+                data-product-handle="{{ product.handle }}"
+                style="left: {{ block.settings.position_x }}%; top: {{ block.settings.position_y }}%;"
+                aria-label="View {{ product.title }}"
+              >
+                <span class="hotspot-icon">+</span>
+              </button>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Text -->
+    <div class="bottom-text-container">
+      <p class="bottom-text">{{ section.settings.bottom_text }}</p>
+    </div>
+  </div>
+</section>
+
+<!-- Product Modal -->
+{% render 'product-modal' %}

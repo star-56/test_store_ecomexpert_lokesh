@@ -1,0 +1,21 @@
+{% comment %}
+  Template: page.gift-guide.liquid
+  This template should be placed in /templates/ folder
+{% endcomment %}
+
+<!-- Add body class for CSS targeting -->
+<script>
+  document.body.classList.add('template-page-gift-guide');
+</script>
+
+<!-- Load custom CSS -->
+{{ 'gift-guide-custom.css' | asset_url | stylesheet_tag }}
+
+<!-- Gift Guide Hero Section -->
+{% section 'gift-guide-hero' %}
+
+<!-- Gift Guide Products Section -->
+{% section 'gift-guide-products' %}
+
+<!-- Load custom JavaScript -->
+<script src="{{ 'gift-guide-custom.js' | asset_url }}" defer></script>
