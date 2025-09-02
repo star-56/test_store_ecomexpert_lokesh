@@ -155,11 +155,23 @@
               "text": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
               "text_style": "subtitle"
             }
+          },
+          "buttons_kBWwCM": {
+            "type": "buttons",
+            "settings": {
+              "button_label_1": "SHOP NOW",
+              "button_link_1": "",
+              "button_style_secondary_1": false,
+              "button_label_2": "",
+              "button_link_2": "",
+              "button_style_secondary_2": false
+            }
           }
         },
         "block_order": [
           "heading_nMwECG",
-          "text_3DQVbM"
+          "text_3DQVbM",
+          "buttons_kBWwCM"
         ],
         "settings": {
           "brand_name": "TISSO VISON",
