@@ -1,38 +1,31 @@
 {% comment %}
-  Product Card Component
-  Usage: {% render 'product-card', product: product %}
+  Dynamic Product Card Component
+  Usage: <div class="product-card" data-product-handle="{{ product.handle }}"></div>
+  Will be populated via JavaScript
 {% endcomment %}
 
-<div class="product-card">
+<div class="product-card" data-product-handle="{{ product.handle | default: 'demo-product' }}">
   <!-- Product Image -->
   <div class="product-image">
-    {% if product.featured_image %}
-      <img src="{{ product.featured_image | img_url: '140x140' }}" alt="{{ product.title }}">
-    {% else %}
-      <div class="placeholder-image"></div>
-    {% endif %}
+    <img id="productImage" src="" alt="" style="display: none;">
+    <div class="placeholder-image" id="placeholderImage"></div>
   </div>
 
   <!-- Product Details -->
   <div class="product-details">
-    <h3 class="product-title">{{ product.title | default: 'Accordion Pleated Dress' }}</h3>
-    <div class="product-price">{{ product.price | money | default: '980,00€' }}</div>
-    <p class="product-description">
-      {{ product.description | truncate: 120 | default: 'This one-piece swimsuit is crafted from jersey featuring an allover micro Monogram motif in relief.' }}
-    </p>
+    <h3 class="product-title" id="productTitle">Loading...</h3>
+    <div class="product-price" id="productPrice">€0.00</div>
+    <p class="product-description" id="productDescription">Loading product details...</p>
   </div>
 
   <!-- Color Selection -->
   <div class="color-section">
     <label class="section-label">Color</label>
-    <div class="color-options">
-      <div class="color-option">
-        <div class="color-indicator red-color"></div>
-        <span class="color-name">Red</span>
-      </div>
-      <div class="color-option">
-        <div class="color-indicator grey-color"></div>
-        <span class="color-name">Grey</span>
+    <div class="color-options" id="colorOptions">
+      <!-- Will be populated via JavaScript -->
+      <div class="color-option loading">
+        <div class="color-indicator"></div>
+        <span class="color-name">Loading...</span>
       </div>
     </div>
   </div>
@@ -41,13 +34,8 @@
   <div class="size-section">
     <label class="section-label">Size</label>
     <div class="size-dropdown">
-      <select class="size-select" id="product-size-{{ product.id | default: 'demo' }}">
-        <option value="">Choose your size</option>
-        <option value="XS">XS</option>
-        <option value="S">S</option>
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
+      <select class="size-select" id="sizeSelect">
+        <option value="">Loading sizes...</option>
       </select>
       <div class="dropdown-arrow">
         <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
@@ -58,12 +46,10 @@
   </div>
 
   <!-- Add to Cart Button -->
-  <form action="/cart/add" method="post" enctype="multipart/form-data" class="add-to-cart-form">
-    {% unless product == empty %}
-      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-    {% endunless %}
-    <button type="submit" class="add-to-cart-btn">
-      <span>Add to cart</span>
+  <form class="add-to-cart-form" id="addToCartForm">
+    <input type="hidden" name="variant_id" id="variantId">
+    <button type="submit" class="add-to-cart-btn" id="addToCartBtn" disabled>
+      <span>Loading...</span>
       <svg width="20" height="2" viewBox="0 0 20 2" fill="none">
         <path d="M0 1H20" stroke="white" stroke-width="1.5"/>
       </svg>
