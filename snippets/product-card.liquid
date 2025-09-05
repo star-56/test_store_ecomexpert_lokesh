@@ -1,10 +1,13 @@
 {% comment %}
   Dynamic Product Card Component
-  Usage: <div class="product-card" data-product-handle="{{ product.handle }}"></div>
+  Usage: {% render 'product-card', product: product %}
   Will be populated via JavaScript
 {% endcomment %}
 
-<div class="product-card" data-product-handle="{{ product.handle | default: 'demo-product' }}">
+<!-- Load Product Card CSS -->
+{{ 'product-card.css' | asset_url | stylesheet_tag }}
+
+<div class="product-card" data-product-handle="{{ product.handle | default: 'demo-product' }}" data-product-id="{{ product.id | default: '' }}">
   <!-- Product Image -->
   <div class="product-image">
     <img id="productImage" src="" alt="" style="display: none;">
