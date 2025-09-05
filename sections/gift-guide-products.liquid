@@ -56,15 +56,18 @@
     
     <div class="products-grid">
       {% if section.blocks.size > 0 %}
+        {% comment %} Use blocks to render individual product cards {% endcomment %}
         {% for block in section.blocks %}
           {% if block.type == 'product_item' and block.settings.product %}
             {% assign product = block.settings.product %}
-            <div class="product-card" {{ block.shopify_attributes }}>
-              <div class="product-image-wrapper">
-                {% if product.featured_image %}
-                  {{ product.featured_image | image_url: width: 600 | image_tag: class: 'product-image', loading: 'lazy' }}
-                {% endif %}
-                {% if block.settings.show_hotspot %}
+            
+            <div class="product-grid-item" {{ block.shopify_attributes }}>
+              {% comment %} Render the dynamic product card component {% endcomment %}
+              {% render 'product-card', product: product %}
+              
+              {% comment %} Add hotspot overlay if enabled {% endcomment %}
+              {% if block.settings.show_hotspot %}
+                <div class="product-image-wrapper">
                   <button 
                     class="product-hotspot-overlay" 
                     data-product-id="{{ product.id }}"
@@ -82,6 +85,7 @@
                           <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
                           <feOffset dy="3"/>
                           <feGaussianBlur stdDeviation="2"/>
+                          <feGaussianBlur stdDeviation="2"/>
                           <feComposite in2="hardAlpha" operator="out"/>
                           <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"/>
                           <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3_2760"/>
@@ -90,19 +94,22 @@
                       </defs>
                     </svg>
                   </button>
-                {% endif %}
-              </div>
+                </div>
+              {% endif %}
             </div>
           {% endif %}
         {% endfor %}
+        
       {% elsif section.settings.collection %}
+        {% comment %} Use collection to render product cards {% endcomment %}
         {% assign products = section.settings.collection.products | limit: section.settings.products_limit %}
         {% for product in products %}
-          <div class="product-card">
+          <div class="product-grid-item">
+            {% comment %} Render the dynamic product card component {% endcomment %}
+            {% render 'product-card', product: product %}
+            
+            {% comment %} Add hotspot overlay by default for collection products {% endcomment %}
             <div class="product-image-wrapper">
-              {% if product.featured_image %}
-                {{ product.featured_image | image_url: width: 600 | image_tag: class: 'product-image', loading: 'lazy' }}
-              {% endif %}
               <button 
                 class="product-hotspot-overlay" 
                 data-product-id="{{ product.id }}"
