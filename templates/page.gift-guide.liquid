@@ -13,7 +13,6 @@
 
 <!-- Load custom CSS with cache busting -->
 {{ 'gift-guide-custom.css' | asset_url | stylesheet_tag }}
-{{ 'product-card.css' | asset_url | stylesheet_tag }}
 
 <!-- Gift Guide Wrapper with unique ID -->
 <div id="gift-guide-{{ page.handle | default: 'default' }}" class="gift-guide-container">
