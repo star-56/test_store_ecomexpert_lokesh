@@ -1,3 +1,68 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Lustria:wght@400&display=swap');
+
+/* Product Card Overlay Styles */
+.product-card-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.product-card-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.product-card-wrapper {
+  position: relative;
+  transform: translateY(50px);
+  transition: transform 0.3s ease;
+}
+
+.product-card-overlay.active .product-card-wrapper {
+  transform: translateY(0);
+}
+
+.product-card-close {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  z-index: 10;
+}
+
+.close-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid #ddd;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 300;
+  color: #333;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.close-btn:hover {
+  background: #f5f5f5;
+  transform: scale(1.05);
+}
+
 /* Product Card Component Styles */
 .product-card {
   position: relative;
@@ -29,6 +94,15 @@
   width: 100%;
   height: 100%;
   background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #999;
+}
+
+.placeholder-image::after {
+  content: "No Image";
 }
 
 /* Product Details */
@@ -103,22 +177,35 @@
   position: relative;
   height: 64px;
   border: 0.5px solid #000000;
+  display: flex;
+  align-items: center;
 }
 
 .color-option {
-  position: absolute;
-  top: 37.28%;
+  position: relative;
   display: flex;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: background-color 0.2s ease;
+  flex: 1;
+}
+
+.color-option:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.color-option.selected {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .color-option:first-child {
   left: 5.71%;
 }
 
-.color-option:last-child {
-  left: 54.99%;
+.color-option:not(:last-child) {
+  border-right: 0.5px solid #000000;
 }
 
 .color-indicator {
@@ -246,25 +333,47 @@
   line-height: 20px;
   text-transform: uppercase;
   color: #FFFFFF;
+  transition: background 0.2s ease;
 }
 
-.add-to-cart-btn:hover {
+.add-to-cart-btn:hover:not(:disabled) {
   background: #333333;
-  transition: background 0.2s ease;
+}
+
+.add-to-cart-btn:disabled {
+  background: #666666;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .add-to-cart-btn span {
   letter-spacing: 0.02em;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .product-card {
-    width: 100%;
-    max-width: 311px;
-    margin: 0 auto;
+/* Cart Notification */
+.cart-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #000;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 5px;
+  z-index: 10000;
+  font-family: 'Jost', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  animation: slideInRight 0.3s ease forwards, slideOutRight 0.3s ease 2.7s forwards;
+}
+
+@keyframes slideInRight {
+  to {
+    transform: translateX(0);
   }
 }
 
-/* Font loading fallbacks */
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Lustria:wght@400&display=swap');
+@keyframes slideOutRight {
+  to {
+    transform: translateX(100%);
+  }
+}
