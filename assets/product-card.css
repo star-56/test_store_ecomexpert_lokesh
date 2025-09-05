@@ -1,0 +1,527 @@
+/* Product Card Component Styles */
+.product-card {
+  position: relative;
+  width: 311px;
+  height: 447px;
+  background: #FFFFFF;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Product Image */
+.product-image {
+  position: absolute;
+  left: 5.47%;
+  right: 55.95%;
+  top: 8.05%;
+  bottom: 60.63%;
+  background-size: cover;
+  background-position: center;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder-image {
+  width: 100%;
+  height: 100%;
+  background: #f0f0f0;
+}
+
+/* Product Details */
+.product-details {
+  position: absolute;
+  left: 46.62%;
+  right: 9.65%;
+  top: 8.72%;
+}
+
+.product-title {
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 120%;
+  display: flex;
+  align-items: center;
+  color: #000000;
+  margin: 0 0 12px 0;
+}
+
+.product-price {
+  font-family: 'Lustria', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 120%;
+  display: flex;
+  align-items: center;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+.product-description {
+  position: absolute;
+  width: 146px;
+  height: 52px;
+  left: calc(50% - 146px/2 + 62.5px - 46.62%);
+  top: 122px - 39px; /* Adjusting for parent positioning */
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 110%;
+  letter-spacing: -0.01em;
+  color: #000000;
+  margin: 0;
+}
+
+/* Color Section */
+.color-section {
+  position: absolute;
+  left: 6.43%;
+  right: 6.43%;
+  top: 41.61%;
+  bottom: 43.96%;
+}
+
+.section-label {
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 130%;
+  color: #333333;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.color-options {
+  position: relative;
+  height: 64px;
+  border: 0.5px solid #000000;
+}
+
+.color-option {
+  position: absolute;
+  top: 37.28%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.color-option:first-child {
+  left: 5.71%;
+}
+
+.color-option:last-child {
+  left: 54.99%;
+}
+
+.color-indicator {
+  box-sizing: border-box;
+  width: 20px;
+  height: 40px;
+  border: 0.5px solid #000000;
+}
+
+.red-color {
+  background: #B20F36;
+}
+
+.grey-color {
+  background: #AFAFB7;
+}
+
+.color-name {
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: -0.02em;
+  text-transform: capitalize;
+  color: #000000;
+}
+
+/* Size Section */
+.size-section {
+  position: absolute;
+  height: 64px;
+  left: 6.43%;
+  right: 6.43%;
+  top: 262px;
+}
+
+.size-dropdown {
+  position: relative;
+  margin-top: 12px;
+}
+
+.size-select {
+  box-sizing: border-box;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 38.04%;
+  bottom: -1.23%;
+  width: 100%;
+  height: 40px;
+  border: 0.5px solid #000000;
+  background: transparent;
+  padding: 0 4.8% 0 4.8%;
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: -0.02em;
+  color: #000000;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.size-select:focus {
+  outline: none;
+}
+
+.dropdown-arrow {
+  position: absolute;
+  left: 79.7%;
+  right: 5.64%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-left: 0.5px solid #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: white;
+}
+
+.dropdown-arrow svg {
+  transform: rotate(0deg);
+  transition: transform 0.2s ease;
+}
+
+.size-select:focus + .dropdown-arrow svg {
+  transform: rotate(180deg);
+}
+
+/* Add to Cart Button */
+.add-to-cart-form {
+  position: absolute;
+  width: 271px;
+  height: 45px;
+  left: 20px;
+  top: 377px;
+}
+
+.add-to-cart-btn {
+  box-sizing: border-box;
+  position: absolute;
+  left: 6.43%;
+  right: 6.43%;
+  top: 84.34%;
+  bottom: 5.59%;
+  width: 87.14%;
+  height: 45px;
+  background: #000000;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+.add-to-cart-btn:hover {
+  background: #333333;
+  transition: background 0.2s ease;
+}
+
+.add-to-cart-btn span {
+  letter-spacing: 0.02em;
+}
+
+/* Missing CSS styles to add to product-card.css */
+
+/* Product Card Overlay Container */
+.product-card-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.product-card-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Product Card Wrapper */
+.product-card-wrapper {
+  position: relative;
+  background: white;
+  border-radius: 0;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  max-width: 311px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+  outline: none;
+}
+
+.product-card-overlay.active .product-card-wrapper {
+  transform: scale(1);
+}
+
+/* Close Button */
+.product-card-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+}
+
+.close-btn {
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+/* Color Option Interactions */
+.color-option {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  border: 2px solid transparent;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.color-option:hover {
+  opacity: 0.8;
+}
+
+.color-option.selected {
+  border-color: #000000;
+}
+
+.color-option.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Add to Cart Button States */
+.add-to-cart-btn:disabled {
+  background: #CCCCCC;
+  cursor: not-allowed;
+}
+
+.add-to-cart-btn:disabled:hover {
+  background: #CCCCCC;
+}
+
+/* Notifications */
+.cart-notification,
+.error-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 6px;
+  z-index: 10000;
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.3s ease;
+}
+
+.cart-notification {
+  background: #28a745;
+  color: white;
+}
+
+.error-notification {
+  background: #dc3545;
+  color: white;
+}
+
+/* Slide in animation for notifications */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Mobile Menu Overlay (referenced in JavaScript) */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Product Hotspots (referenced in JavaScript) */
+.product-hotspot-overlay {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #000;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.2s ease;
+  z-index: 10;
+}
+
+.product-hotspot-overlay:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 1);
+}
+
+.product-hotspot-overlay::after {
+  content: '+';
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
+}
+
+/* Hotspot Position Classes */
+.hotspot-pos-1 { top: 15%; left: 20%; }
+.hotspot-pos-2 { top: 25%; right: 25%; }
+.hotspot-pos-3 { top: 40%; left: 15%; }
+.hotspot-pos-4 { top: 35%; right: 20%; }
+.hotspot-pos-5 { top: 55%; left: 25%; }
+.hotspot-pos-6 { top: 50%; right: 15%; }
+.hotspot-pos-7 { top: 70%; left: 20%; }
+.hotspot-pos-8 { top: 65%; right: 25%; }
+.hotspot-pos-9 { top: 80%; left: 30%; }
+.hotspot-pos-10 { top: 75%; right: 30%; }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .product-card-overlay {
+    padding: 10px;
+  }
+  
+  .product-card-wrapper {
+    max-width: 100%;
+    max-height: 95vh;
+  }
+  
+  .product-card {
+    width: 100%;
+    height: auto;
+    min-height: 447px;
+  }
+  
+  .close-btn {
+    top: 5px;
+    right: 5px;
+  }
+}
+
+/* Loading States */
+.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Focus Management */
+.product-card-wrapper:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* Ensure proper stacking */
+body.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Template hiding */
+template {
+  display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .product-card {
+    width: 100%;
+    max-width: 311px;
+    margin: 0 auto;
+  }
+}
+
+/* Font loading fallbacks */
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Lustria:wght@400&display=swap');
