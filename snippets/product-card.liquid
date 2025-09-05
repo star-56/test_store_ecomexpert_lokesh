@@ -1,0 +1,72 @@
+{% comment %}
+  Product Card Component
+  Usage: {% render 'product-card', product: product %}
+{% endcomment %}
+
+<div class="product-card">
+  <!-- Product Image -->
+  <div class="product-image">
+    {% if product.featured_image %}
+      <img src="{{ product.featured_image | img_url: '140x140' }}" alt="{{ product.title }}">
+    {% else %}
+      <div class="placeholder-image"></div>
+    {% endif %}
+  </div>
+
+  <!-- Product Details -->
+  <div class="product-details">
+    <h3 class="product-title">{{ product.title | default: 'Accordion Pleated Dress' }}</h3>
+    <div class="product-price">{{ product.price | money | default: '980,00€' }}</div>
+    <p class="product-description">
+      {{ product.description | truncate: 120 | default: 'This one-piece swimsuit is crafted from jersey featuring an allover micro Monogram motif in relief.' }}
+    </p>
+  </div>
+
+  <!-- Color Selection -->
+  <div class="color-section">
+    <label class="section-label">Color</label>
+    <div class="color-options">
+      <div class="color-option">
+        <div class="color-indicator red-color"></div>
+        <span class="color-name">Red</span>
+      </div>
+      <div class="color-option">
+        <div class="color-indicator grey-color"></div>
+        <span class="color-name">Grey</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Size Selection -->
+  <div class="size-section">
+    <label class="section-label">Size</label>
+    <div class="size-dropdown">
+      <select class="size-select" id="product-size-{{ product.id | default: 'demo' }}">
+        <option value="">Choose your size</option>
+        <option value="XS">XS</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+      </select>
+      <div class="dropdown-arrow">
+        <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+          <path d="M1 1L6 6L11 1" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add to Cart Button -->
+  <form action="/cart/add" method="post" enctype="multipart/form-data" class="add-to-cart-form">
+    {% unless product == empty %}
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+    {% endunless %}
+    <button type="submit" class="add-to-cart-btn">
+      <span>Add to cart</span>
+      <svg width="20" height="2" viewBox="0 0 20 2" fill="none">
+        <path d="M0 1H20" stroke="white" stroke-width="1.5"/>
+      </svg>
+    </button>
+  </form>
+</div>
