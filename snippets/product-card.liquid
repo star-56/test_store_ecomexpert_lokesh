@@ -1,61 +1,86 @@
 {% comment %}
   Dynamic Product Card Component
-  Usage: {% render 'product-card', product: product %}
-  Will be populated via JavaScript
+  Usage: This component is now designed to work with JavaScript overlay system
+  The template will be used as a base and populated dynamically
 {% endcomment %}
 
 <!-- Load Product Card CSS -->
 {{ 'product-card.css' | asset_url | stylesheet_tag }}
 
-<div class="product-card" data-product-handle="{{ product.handle | default: 'demo-product' }}" data-product-id="{{ product.id | default: '' }}">
-  <!-- Product Image -->
-  <div class="product-image">
-    <img id="productImage" src="" alt="" style="display: none;">
-    <div class="placeholder-image" id="placeholderImage"></div>
-  </div>
-
-  <!-- Product Details -->
-  <div class="product-details">
-    <h3 class="product-title" id="productTitle">Loading...</h3>
-    <div class="product-price" id="productPrice">€0.00</div>
-    <p class="product-description" id="productDescription">Loading product details...</p>
-  </div>
-
-  <!-- Color Selection -->
-  <div class="color-section">
-    <label class="section-label">Color</label>
-    <div class="color-options" id="colorOptions">
-      <!-- Will be populated via JavaScript -->
-      <div class="color-option loading">
-        <div class="color-indicator"></div>
-        <span class="color-name">Loading...</span>
+<!-- Product Card Template (hidden, used by JavaScript) -->
+<template id="product-card-template">
+  <div class="product-card-wrapper">
+    <div class="product-card-close">
+      <button class="close-btn" type="button" aria-label="Close product card">&times;</button>
+    </div>
+    <div class="product-card" data-product-handle="" data-product-id="">
+      <!-- Product Image -->
+      <div class="product-image">
+        <img id="productImage" src="" alt="" style="display: none;">
+        <div class="placeholder-image" id="placeholderImage"></div>
       </div>
+
+      <!-- Product Details -->
+      <div class="product-details">
+        <h3 class="product-title" id="productTitle">Loading...</h3>
+        <div class="product-price" id="productPrice">€0.00</div>
+        <p class="product-description" id="productDescription">Loading product details...</p>
+      </div>
+
+      <!-- Color Selection -->
+      <div class="color-section">
+        <label class="section-label">Color</label>
+        <div class="color-options" id="colorOptions">
+          <!-- Will be populated via JavaScript -->
+          <div class="color-option loading">
+            <div class="color-indicator"></div>
+            <span class="color-name">Loading...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Size Selection -->
+      <div class="size-section">
+        <label class="section-label">Size</label>
+        <div class="size-dropdown">
+          <select class="size-select" id="sizeSelect" aria-label="Select size">
+            <option value="">Loading sizes...</option>
+          </select>
+          <div class="dropdown-arrow">
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+              <path d="M1 1L6 6L11 1" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add to Cart Button -->
+      <form class="add-to-cart-form" id="addToCartForm">
+        <input type="hidden" name="variant_id" id="variantId">
+        <button type="submit" class="add-to-cart-btn" id="addToCartBtn" disabled>
+          <span>Loading...</span>
+          <svg width="20" height="2" viewBox="0 0 20 2" fill="none" aria-hidden="true">
+            <path d="M0 1H20" stroke="white" stroke-width="1.5"/>
+          </svg>
+        </button>
+      </form>
     </div>
   </div>
+</template>
 
-  <!-- Size Selection -->
-  <div class="size-section">
-    <label class="section-label">Size</label>
-    <div class="size-dropdown">
-      <select class="size-select" id="sizeSelect">
-        <option value="">Loading sizes...</option>
-      </select>
-      <div class="dropdown-arrow">
-        <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-          <path d="M1 1L6 6L11 1" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-    </div>
-  </div>
-
-  <!-- Add to Cart Button -->
-  <form class="add-to-cart-form" id="addToCartForm">
-    <input type="hidden" name="variant_id" id="variantId">
-    <button type="submit" class="add-to-cart-btn" id="addToCartBtn" disabled>
-      <span>Loading...</span>
-      <svg width="20" height="2" viewBox="0 0 20 2" fill="none">
-        <path d="M0 1H20" stroke="white" stroke-width="1.5"/>
-      </svg>
-    </button>
-  </form>
+<!-- Product Card Overlay Container -->
+<div id="productCardContainer" class="product-card-overlay" role="dialog" aria-modal="true" aria-labelledby="productTitle" style="display: none;">
+  <!-- Content will be populated by JavaScript -->
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Ensure the container is properly initialized
+  const productCardContainer = document.getElementById('productCardContainer');
+  if (productCardContainer) {
+    // Make sure it starts hidden
+    productCardContainer.style.display = 'none';
+    productCardContainer.classList.remove('active');
+  }
+});
+</script>
