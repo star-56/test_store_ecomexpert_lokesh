@@ -4,12 +4,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
   const mobileMenuClose = document.getElementById('mobileMenuClose');
   
-  // Product card container - create if doesn't exist
+  // Product card container - get existing or create
   let productCardContainer = document.getElementById('productCardContainer');
   if (!productCardContainer) {
     productCardContainer = document.createElement('div');
     productCardContainer.id = 'productCardContainer';
     productCardContainer.className = 'product-card-overlay';
+    productCardContainer.setAttribute('role', 'dialog');
+    productCardContainer.setAttribute('aria-modal', 'true');
+    productCardContainer.style.display = 'none';
     document.body.appendChild(productCardContainer);
   }
 
@@ -75,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const randomPosition = positionClasses[Math.floor(Math.random() * positionClasses.length)];
       hotspot.classList.add(randomPosition);
       
-      // Add event listener - MODIFIED to render product card instead of modal
+      // Add event listener to render product card
       hotspot.addEventListener('click', function(e) {
         e.preventDefault();
         const productHandle = this.dataset.productHandle;
@@ -86,12 +89,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Product Card functionality (replaces modal functionality)
+  // Product Card functionality
   function renderProductCard(productHandle) {
     console.log('Loading product card for:', productHandle);
     
     fetch(`/products/${productHandle}.js`)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Product not found');
+        }
+        return response.json();
+      })
       .then(product => {
         console.log('Product data loaded:', product);
         createAndShowProductCard(product);
@@ -103,67 +111,79 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function createAndShowProductCard(product) {
-    // Create the product card HTML structure
-    const productCardHTML = `
-      <div class="product-card-wrapper">
-        <div class="product-card-close">
-          <button class="close-btn">&times;</button>
-        </div>
-        <div class="product-card" data-product-handle="${product.handle}" data-product-id="${product.id}">
-          <!-- Product Image -->
-          <div class="product-image">
-            <img id="productImage" src="${product.featured_image || ''}" alt="${product.title}" style="${product.featured_image ? '' : 'display: none;'}">
-            <div class="placeholder-image" id="placeholderImage" style="${product.featured_image ? 'display: none;' : ''}"></div>
+    // Use the template if it exists, otherwise create HTML
+    const template = document.getElementById('product-card-template');
+    let productCardHTML;
+    
+    if (template) {
+      // Clone the template content
+      const templateContent = template.content.cloneNode(true);
+      productCardContainer.innerHTML = '';
+      productCardContainer.appendChild(templateContent);
+    } else {
+      // Fallback: create HTML manually
+      productCardHTML = `
+        <div class="product-card-wrapper">
+          <div class="product-card-close">
+            <button class="close-btn" type="button" aria-label="Close product card">&times;</button>
           </div>
-
-          <!-- Product Details -->
-          <div class="product-details">
-            <h3 class="product-title" id="productTitle">${product.title}</h3>
-            <div class="product-price" id="productPrice">${formatMoney(product.price)}</div>
-            <p class="product-description" id="productDescription">${product.description || 'This premium product offers exceptional quality and style.'}</p>
-          </div>
-
-          <!-- Color Selection -->
-          <div class="color-section">
-            <label class="section-label">Color</label>
-            <div class="color-options" id="colorOptions">
-              <!-- Will be populated via JavaScript -->
+          <div class="product-card" data-product-handle="${product.handle}" data-product-id="${product.id}">
+            <!-- Product Image -->
+            <div class="product-image">
+              <img id="productImage" src="${product.featured_image || ''}" alt="${product.title}" style="${product.featured_image ? '' : 'display: none;'}">
+              <div class="placeholder-image" id="placeholderImage" style="${product.featured_image ? 'display: none;' : ''}"></div>
             </div>
-          </div>
 
-          <!-- Size Selection -->
-          <div class="size-section">
-            <label class="section-label">Size</label>
-            <div class="size-dropdown">
-              <select class="size-select" id="sizeSelect">
-                <option value="">Choose your size</option>
-              </select>
-              <div class="dropdown-arrow">
-                <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-                  <path d="M1 1L6 6L11 1" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+            <!-- Product Details -->
+            <div class="product-details">
+              <h3 class="product-title" id="productTitle">${product.title}</h3>
+              <div class="product-price" id="productPrice">${formatMoney(product.price)}</div>
+              <p class="product-description" id="productDescription">${product.description || 'This premium product offers exceptional quality and style.'}</p>
+            </div>
+
+            <!-- Color Selection -->
+            <div class="color-section">
+              <label class="section-label">Color</label>
+              <div class="color-options" id="colorOptions">
+                <!-- Will be populated via JavaScript -->
               </div>
             </div>
+
+            <!-- Size Selection -->
+            <div class="size-section">
+              <label class="section-label">Size</label>
+              <div class="size-dropdown">
+                <select class="size-select" id="sizeSelect" aria-label="Select size">
+                  <option value="">Choose your size</option>
+                </select>
+                <div class="dropdown-arrow">
+                  <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+                    <path d="M1 1L6 6L11 1" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add to Cart Button -->
+            <form class="add-to-cart-form" id="addToCartForm">
+              <input type="hidden" name="variant_id" id="variantId">
+              <button type="submit" class="add-to-cart-btn" id="addToCartBtn">
+                <span>Add to Cart</span>
+                <svg width="20" height="2" viewBox="0 0 20 2" fill="none" aria-hidden="true">
+                  <path d="M0 1H20" stroke="white" stroke-width="1.5"/>
+                </svg>
+              </button>
+            </form>
           </div>
-
-          <!-- Add to Cart Button -->
-          <form class="add-to-cart-form" id="addToCartForm">
-            <input type="hidden" name="variant_id" id="variantId">
-            <button type="submit" class="add-to-cart-btn" id="addToCartBtn">
-              <span>Add to Cart</span>
-              <svg width="20" height="2" viewBox="0 0 20 2" fill="none">
-                <path d="M0 1H20" stroke="white" stroke-width="1.5"/>
-              </svg>
-            </button>
-          </form>
         </div>
-      </div>
-    `;
-
-    // Insert the product card into the container
-    productCardContainer.innerHTML = productCardHTML;
+      `;
+      productCardContainer.innerHTML = productCardHTML;
+    }
     
     // Show the product card container
+    productCardContainer.style.display = 'flex';
+    // Force reflow
+    productCardContainer.offsetHeight;
     productCardContainer.classList.add('active');
     document.body.style.overflow = 'hidden';
 
@@ -172,7 +192,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add close functionality
     const closeBtn = productCardContainer.querySelector('.close-btn');
-    closeBtn.addEventListener('click', closeProductCard);
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeProductCard);
+    }
     
     // Close on overlay click
     productCardContainer.addEventListener('click', function(e) {
@@ -180,10 +202,41 @@ document.addEventListener('DOMContentLoaded', function() {
         closeProductCard();
       }
     });
+
+    // Focus management for accessibility
+    const cardWrapper = productCardContainer.querySelector('.product-card-wrapper');
+    if (cardWrapper) {
+      cardWrapper.focus();
+    }
   }
 
   function populateProductCard(product) {
     console.log('Populating product card with:', product);
+
+    // Update basic product info
+    const productImage = productCardContainer.querySelector('#productImage');
+    const placeholderImage = productCardContainer.querySelector('#placeholderImage');
+    const productTitle = productCardContainer.querySelector('#productTitle');
+    const productPrice = productCardContainer.querySelector('#productPrice');
+    const productDescription = productCardContainer.querySelector('#productDescription');
+
+    if (product.featured_image && productImage) {
+      productImage.src = product.featured_image;
+      productImage.alt = product.title;
+      productImage.style.display = 'block';
+      if (placeholderImage) placeholderImage.style.display = 'none';
+    }
+
+    if (productTitle) productTitle.textContent = product.title;
+    if (productPrice) productPrice.textContent = formatMoney(product.price);
+    if (productDescription) productDescription.textContent = product.description || 'This premium product offers exceptional quality and style.';
+
+    // Update product card attributes
+    const productCard = productCardContainer.querySelector('.product-card');
+    if (productCard) {
+      productCard.setAttribute('data-product-handle', product.handle);
+      productCard.setAttribute('data-product-id', product.id);
+    }
 
     // Determine which options contain colors and sizes
     let colorOptionKey = 'option2'; // Default
@@ -205,55 +258,59 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Build color options
     const colorOptions = productCardContainer.querySelector('#colorOptions');
-    colorOptions.innerHTML = '';
-    
-    const colors = getUniqueOptionValues(product.variants, colorOptionKey);
-    console.log('Available colors:', colors);
-    
-    if (colors.length > 0) {
-      colors.forEach((color, index) => {
-        const colorDiv = document.createElement('div');
-        colorDiv.className = 'color-option';
-        if (index === 0) colorDiv.classList.add('selected');
-        colorDiv.dataset.color = color;
-        
-        const colorIndicator = document.createElement('div');
-        colorIndicator.className = 'color-indicator';
-        colorIndicator.style.backgroundColor = getColorValue(color);
-        
-        const colorName = document.createElement('span');
-        colorName.className = 'color-name';
-        colorName.textContent = color;
-        
-        colorDiv.appendChild(colorIndicator);
-        colorDiv.appendChild(colorName);
-        
-        colorDiv.addEventListener('click', () => selectColor(colorDiv, product));
-        colorOptions.appendChild(colorDiv);
-      });
-    } else {
-      // Default color option if none found
-      colorOptions.innerHTML = `
-        <div class="color-option selected" data-color="Default">
-          <div class="color-indicator" style="background-color: #CCCCCC;"></div>
-          <span class="color-name">Standard</span>
-        </div>
-      `;
+    if (colorOptions) {
+      colorOptions.innerHTML = '';
+      
+      const colors = getUniqueOptionValues(product.variants, colorOptionKey);
+      console.log('Available colors:', colors);
+      
+      if (colors.length > 0) {
+        colors.forEach((color, index) => {
+          const colorDiv = document.createElement('div');
+          colorDiv.className = 'color-option';
+          if (index === 0) colorDiv.classList.add('selected');
+          colorDiv.dataset.color = color;
+          
+          const colorIndicator = document.createElement('div');
+          colorIndicator.className = 'color-indicator';
+          colorIndicator.style.backgroundColor = getColorValue(color);
+          
+          const colorName = document.createElement('span');
+          colorName.className = 'color-name';
+          colorName.textContent = color;
+          
+          colorDiv.appendChild(colorIndicator);
+          colorDiv.appendChild(colorName);
+          
+          colorDiv.addEventListener('click', () => selectColor(colorDiv, product));
+          colorOptions.appendChild(colorDiv);
+        });
+      } else {
+        // Default color option if none found
+        colorOptions.innerHTML = `
+          <div class="color-option selected" data-color="Default">
+            <div class="color-indicator" style="background-color: #CCCCCC;"></div>
+            <span class="color-name">Standard</span>
+          </div>
+        `;
+      }
     }
 
     // Build size options
     const sizeSelect = productCardContainer.querySelector('#sizeSelect');
-    sizeSelect.innerHTML = '<option value="">Choose your size</option>';
-    
-    const sizes = getUniqueOptionValues(product.variants, sizeOptionKey);
-    console.log('Available sizes:', sizes);
-    
-    sizes.forEach(size => {
-      const option = document.createElement('option');
-      option.value = size;
-      option.textContent = size;
-      sizeSelect.appendChild(option);
-    });
+    if (sizeSelect) {
+      sizeSelect.innerHTML = '<option value="">Choose your size</option>';
+      
+      const sizes = getUniqueOptionValues(product.variants, sizeOptionKey);
+      console.log('Available sizes:', sizes);
+      
+      sizes.forEach(size => {
+        const option = document.createElement('option');
+        option.value = size;
+        option.textContent = size;
+        sizeSelect.appendChild(option);
+      });
+    }
 
     // Store configuration for form submission
     window.currentProductConfig = {
@@ -264,13 +321,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Set up form submission
     const form = productCardContainer.querySelector('#addToCartForm');
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      addToCartFromProductCard(product, colorOptionKey, sizeOptionKey);
-    });
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        addToCartFromProductCard(product, colorOptionKey, sizeOptionKey);
+      });
+    }
 
     // Update variant when selections change
-    sizeSelect.addEventListener('change', () => updateSelectedVariant(product, colorOptionKey, sizeOptionKey));
+    if (sizeSelect) {
+      sizeSelect.addEventListener('change', () => updateSelectedVariant(product, colorOptionKey, sizeOptionKey));
+    }
+
+    // Initial variant update
+    updateSelectedVariant(product, colorOptionKey, sizeOptionKey);
   }
 
   function selectColor(colorDiv, product) {
@@ -287,26 +351,33 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function updateSelectedVariant(product, colorOptionKey, sizeOptionKey) {
-    const selectedColor = productCardContainer.querySelector('.color-option.selected')?.dataset.color;
-    const selectedSize = productCardContainer.querySelector('#sizeSelect').value;
+    const selectedColorDiv = productCardContainer.querySelector('.color-option.selected');
+    const selectedColor = selectedColorDiv ? selectedColorDiv.dataset.color : null;
+    const sizeSelect = productCardContainer.querySelector('#sizeSelect');
+    const selectedSize = sizeSelect ? sizeSelect.value : null;
     const variantIdInput = productCardContainer.querySelector('#variantId');
     const addToCartBtn = productCardContainer.querySelector('#addToCartBtn');
+
+    if (!addToCartBtn) return;
 
     if (selectedColor && selectedSize) {
       const variant = findVariant(product.variants, selectedSize, selectedColor, sizeOptionKey, colorOptionKey);
       if (variant && variant.available) {
-        variantIdInput.value = variant.id;
+        if (variantIdInput) variantIdInput.value = variant.id;
         addToCartBtn.disabled = false;
-        addToCartBtn.querySelector('span').textContent = 'Add to Cart';
+        const btnText = addToCartBtn.querySelector('span');
+        if (btnText) btnText.textContent = 'Add to Cart';
       } else {
-        variantIdInput.value = '';
+        if (variantIdInput) variantIdInput.value = '';
         addToCartBtn.disabled = true;
-        addToCartBtn.querySelector('span').textContent = variant ? 'Out of Stock' : 'Not Available';
+        const btnText = addToCartBtn.querySelector('span');
+        if (btnText) btnText.textContent = variant ? 'Out of Stock' : 'Not Available';
       }
     } else {
-      variantIdInput.value = '';
+      if (variantIdInput) variantIdInput.value = '';
       addToCartBtn.disabled = true;
-      addToCartBtn.querySelector('span').textContent = 'Select Options';
+      const btnText = addToCartBtn.querySelector('span');
+      if (btnText) btnText.textContent = 'Select Options';
     }
   }
 
@@ -317,8 +388,10 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function addToCartFromProductCard(product, colorOptionKey, sizeOptionKey) {
-    const selectedColor = productCardContainer.querySelector('.color-option.selected')?.dataset.color;
-    const selectedSize = productCardContainer.querySelector('#sizeSelect').value;
+    const selectedColorDiv = productCardContainer.querySelector('.color-option.selected');
+    const selectedColor = selectedColorDiv ? selectedColorDiv.dataset.color : null;
+    const sizeSelect = productCardContainer.querySelector('#sizeSelect');
+    const selectedSize = sizeSelect ? sizeSelect.value : null;
 
     if (!selectedSize || !selectedColor) {
       alert('Please select all options');
@@ -370,7 +443,9 @@ document.addEventListener('DOMContentLoaded', function() {
   function closeProductCard() {
     productCardContainer.classList.remove('active');
     document.body.style.overflow = '';
+    
     setTimeout(() => {
+      productCardContainer.style.display = 'none';
       productCardContainer.innerHTML = '';
     }, 300);
   }
@@ -454,6 +529,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (cartCount) {
           cartCount.textContent = cart.item_count;
         }
+      })
+      .catch(error => {
+        console.error('Error updating cart count:', error);
       });
   }
 
@@ -465,12 +543,15 @@ document.addEventListener('DOMContentLoaded', function() {
       position: fixed;
       top: 20px;
       right: 20px;
-      background: #000;
+      background: #28a745;
       color: white;
       padding: 15px 20px;
-      border-radius: 5px;
+      border-radius: 6px;
       z-index: 10000;
       font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      animation: slideIn 0.3s ease;
     `;
     
     document.body.appendChild(notification);
@@ -491,9 +572,12 @@ document.addEventListener('DOMContentLoaded', function() {
       background: #dc3545;
       color: white;
       padding: 15px 20px;
-      border-radius: 5px;
+      border-radius: 6px;
       z-index: 10000;
       font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      animation: slideIn 0.3s ease;
     `;
     
     document.body.appendChild(error);
