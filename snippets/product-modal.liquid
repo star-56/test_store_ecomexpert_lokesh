@@ -1,72 +1,53 @@
 {% comment %}
-  Product Card Component
-  Usage: {% render 'product-card', product: product %}
+  Snippet: product-modal.liquid
+  Exact dimensions: 311px x 447px to match screenshot
 {% endcomment %}
 
-<div class="product-card">
-  <!-- Product Image -->
-  <div class="product-image">
-    {% if product.featured_image %}
-      <img src="{{ product.featured_image | img_url: '140x140' }}" alt="{{ product.title }}">
-    {% else %}
-      <div class="placeholder-image"></div>
-    {% endif %}
-  </div>
-
-  <!-- Product Details -->
-  <div class="product-details">
-    <h3 class="product-title">{{ product.title | default: 'Accordion Pleated Dress' }}</h3>
-    <div class="product-price">{{ product.price | money | default: '980,00€' }}</div>
-    <p class="product-description">
-      {{ product.description | truncate: 120 | default: 'This one-piece swimsuit is crafted from jersey featuring an allover micro Monogram motif in relief.' }}
-    </p>
-  </div>
-
-  <!-- Color Selection -->
-  <div class="color-section">
-    <label class="section-label">Color</label>
-    <div class="color-options">
-      <div class="color-option">
-        <div class="color-indicator red-color"></div>
-        <span class="color-name">Red</span>
+<div class="product-modal" id="productModal" aria-hidden="true">
+  <div class="modal-overlay"></div>
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Close modal">×</button>
+    <div class="modal-body">
+      <div class="modal-image">
+        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=120&h=140&fit=crop&crop=center" alt="" id="modalProductImage">
       </div>
-      <div class="color-option">
-        <div class="color-indicator grey-color"></div>
-        <span class="color-name">Grey</span>
-      </div>
+      
+      <h3 class="modal-title" id="modalProductTitle">Accordion Pleated Dress</h3>
+      <p class="modal-price" id="modalProductPrice">980,00€</p>
+      <p class="modal-description" id="modalProductDescription">This one-piece swimsuit is crafted from jersey featuring an allover micro Monogram motif in relief.</p>
+      
+      <form class="product-form" id="modalProductForm">
+        <div class="variant-selector color-selector">
+          <label>Color</label>
+          <div class="color-options" id="colorOptions">
+            <!-- Colors will be populated dynamically by JavaScript -->
+            <button type="button" class="color-option selected" data-color="Red">
+              <div class="color-bar" style="background-color: #B20F36;"></div>
+              <span>Red</span>
+            </button>
+            <button type="button" class="color-option" data-color="Grey">
+              <div class="color-bar" style="background-color: #AFAFB7;"></div>
+              <span>Grey</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="variant-selector size-selector">
+          <label>Size</label>
+          <select class="size-dropdown" id="sizeOptions">
+            <option value="">Choose your size</option>
+            <!-- Sizes will be populated dynamically by JavaScript -->
+            <option value="Small">Small</option>
+            <option value="Medium">Medium</option>
+            <option value="Large">Large</option>
+            <option value="XL">XL</option>
+          </select>
+        </div>
+        
+        <button type="submit" class="add-to-cart-btn">
+          ADD TO CART →
+        </button>
+      </form>
     </div>
   </div>
-
-  <!-- Size Selection -->
-  <div class="size-section">
-    <label class="section-label">Size</label>
-    <div class="size-dropdown">
-      <select class="size-select" id="product-size-{{ product.id | default: 'demo' }}">
-        <option value="">Choose your size</option>
-        <option value="XS">XS</option>
-        <option value="S">S</option>
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-      </select>
-      <div class="dropdown-arrow">
-        <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-          <path d="M1 1L6 6L11 1" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-    </div>
-  </div>
-
-  <!-- Add to Cart Button -->
-  <form action="/cart/add" method="post" enctype="multipart/form-data" class="add-to-cart-form">
-    {% unless product == empty %}
-      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-    {% endunless %}
-    <button type="submit" class="add-to-cart-btn">
-      <span>Add to cart</span>
-      <svg width="20" height="2" viewBox="0 0 20 2" fill="none">
-        <path d="M0 1H20" stroke="white" stroke-width="1.5"/>
-      </svg>
-    </button>
-  </form>
 </div>
