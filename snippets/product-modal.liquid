@@ -46,7 +46,8 @@
   </div>
 </div>
 
-{% comment %} <style>
+<style>
+/* Additional styles to ensure proper color display */
 /* Additional styles to ensure proper color display */
 .variant-selector {
   margin-bottom: 20px;
@@ -63,6 +64,8 @@
   gap: 8px;
   flex-wrap: wrap;
   margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
 }
 
 .color-option {
@@ -77,6 +80,9 @@
   transition: all 0.2s ease;
   font-size: 14px;
   color: #666;
+  position: relative;
+  z-index: 2;
+  white-space: nowrap;
 }
 
 .color-option:hover {
@@ -119,6 +125,7 @@
 /* Custom styled dropdown */
 .size-selector {
   position: relative;
+  clear: both;
 }
 
 .size-dropdown-wrapper {
@@ -128,6 +135,7 @@
   border-radius: 4px;
   background: white;
   overflow: hidden;
+  z-index: 1;
 }
 
 .size-dropdown {
@@ -188,4 +196,4 @@
   color: #666;
   font-style: italic;
 }
-</style> {% endcomment %}
+</style>
