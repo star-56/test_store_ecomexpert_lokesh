@@ -9,7 +9,7 @@
     <button class="modal-close" aria-label="Close modal">×</button>
     <div class="modal-body">
       <div class="modal-image">
-        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=120&h=140&fit=crop&crop=center" width="64px" height="64px" id="modalProductImage">
+        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=120&h=140&fit=crop&crop=center" alt="" id="modalProductImage">
       </div>
       
       <h3 class="modal-title" id="modalProductTitle">Loading...</h3>
@@ -75,6 +75,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 14px;
+  color: #666;
 }
 
 .color-option:hover {
@@ -86,6 +87,7 @@
   border-color: #333;
   background-color: #f5f5f5;
   font-weight: 500;
+  color: #000;
 }
 
 .color-bar {
@@ -138,6 +140,7 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   outline: none;
+  min-height: 44px;
 }
 
 .size-dropdown-arrow {
@@ -149,12 +152,14 @@
   border-left: 1px solid #ddd;
   cursor: pointer;
   pointer-events: none;
+  min-height: 44px;
 }
 
 .size-dropdown-arrow::after {
   content: '▼';
-  font-size: 12px;
-  color: #666;
+  font-size: 14px;
+  color: #333;
+  font-weight: bold;
 }
 
 .size-dropdown-wrapper:hover {
