@@ -1,7 +1,204 @@
 {% comment %}
   Snippet: product-modal.liquid
-  Dynamically populated modal with proper color and size handling
+  Exact dimensions: 311px x 447px to match screenshot
+  Fixed: Color selector no overlap + selected color text becomes black
 {% endcomment %}
+
+<style>
+.product-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: none;
+}
+
+.product-modal[aria-hidden="false"] {
+  display: block;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 311px;
+  height: 447px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.modal-body {
+  padding: 16px;
+  height: calc(100% - 32px);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-image {
+  width: 100%;
+  height: 120px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.modal-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: #333;
+}
+
+.modal-price {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 8px 0;
+  color: #000;
+}
+
+.modal-description {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.4;
+  margin: 0 0 16px 0;
+  /* Ensure description has proper spacing and doesn't overlap */
+  min-height: 32px;
+  display: block;
+}
+
+.product-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.variant-selector {
+  /* Add clear spacing to prevent overlap */
+  margin-bottom: 8px;
+}
+
+.variant-selector label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.color-options {
+  display: flex;
+  gap: 8px;
+  /* Ensure proper spacing */
+  margin-top: 8px;
+}
+
+.color-option {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 6px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.color-option:hover {
+  border-color: #999;
+}
+
+.color-option.selected {
+  border-color: #000;
+  background: #f9f9f9;
+  /* Selected color text becomes black */
+  color: #000;
+  font-weight: 500;
+}
+
+.color-bar {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.size-selector {
+  /* Ensure size selector has proper spacing */
+  margin-top: 8px;
+}
+
+.size-dropdown {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  background: white;
+  cursor: pointer;
+}
+
+.size-dropdown:focus {
+  outline: none;
+  border-color: #000;
+}
+
+.add-to-cart-btn {
+  background: #000;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: auto;
+  transition: background 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+  background: #333;
+}
+</style>
 
 <div class="product-modal" id="productModal" aria-hidden="true">
   <div class="modal-overlay"></div>
@@ -12,25 +209,35 @@
         <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=120&h=140&fit=crop&crop=center" alt="" id="modalProductImage">
       </div>
       
-      <h3 class="modal-title" id="modalProductTitle">Loading...</h3>
-      <p class="modal-price" id="modalProductPrice">€0.00</p>
-      <p class="modal-description" id="modalProductDescription">Loading product details...</p>
+      <h3 class="modal-title" id="modalProductTitle">Accordion Pleated Dress</h3>
+      <p class="modal-price" id="modalProductPrice">980,00€</p>
+      <p class="modal-description" id="modalProductDescription">This one-piece swimsuit is crafted from jersey featuring an allover micro Monogram motif in relief.</p>
       
       <form class="product-form" id="modalProductForm">
         <div class="variant-selector color-selector">
           <label>Color</label>
           <div class="color-options" id="colorOptions">
-            <!-- Colors will be populated dynamically by JavaScript based on product data -->
-            <!-- Fallback content in case JavaScript fails -->
-            <div class="loading-placeholder">Loading colors...</div>
+            <!-- Colors will be populated dynamically by JavaScript -->
+            <button type="button" class="color-option selected" data-color="Red">
+              <div class="color-bar" style="background-color: #B20F36;"></div>
+              <span>Red</span>
+            </button>
+            <button type="button" class="color-option" data-color="Grey">
+              <div class="color-bar" style="background-color: #AFAFB7;"></div>
+              <span>Grey</span>
+            </button>
           </div>
         </div>
         
         <div class="variant-selector size-selector">
           <label>Size</label>
           <select class="size-dropdown" id="sizeOptions">
-            <option value="">Loading sizes...</option>
-            <!-- Sizes will be populated dynamically by JavaScript based on product data -->
+            <option value="">Choose your size</option>
+            <!-- Sizes will be populated dynamically by JavaScript -->
+            <option value="Small">Small</option>
+            <option value="Medium">Medium</option>
+            <option value="Large">Large</option>
+            <option value="XL">XL</option>
           </select>
         </div>
         
@@ -41,74 +248,3 @@
     </div>
   </div>
 </div>
-
-<style>
-/* Additional styles to ensure proper color display */
-.color-options {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.color-option {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 14px;
-}
-
-.color-option:hover {
-  border-color: #333;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.color-option.selected {
-  border-color: #333;
-  background-color: #f5f5f5;
-  font-weight: 500;
-}
-
-.color-bar {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 1px solid #ddd;
-  flex-shrink: 0;
-}
-
-.color-option.selected .color-bar {
-  border: 2px solid #333;
-}
-
-/* Handle white color visibility */
-.color-bar[style*="background-color: #FFFFFF"],
-.color-bar[style*="background-color: #ffffff"],
-.color-bar[style*="background-color: white"] {
-  border: 2px solid #ccc;
-}
-
-.color-option.selected .color-bar[style*="background-color: #FFFFFF"],
-.color-option.selected .color-bar[style*="background-color: #ffffff"],
-.color-option.selected .color-bar[style*="background-color: white"] {
-  border: 2px solid #333;
-}
-
-/* Loading states */
-.loading-placeholder {
-  color: #666;
-  font-style: italic;
-  padding: 12px 0;
-}
-
-/* Ensure size dropdown shows loading state properly */
-.size-dropdown option:first-child {
-  color: #666;
-  font-style: italic;
-}
-</style>
