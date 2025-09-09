@@ -1,7 +1,6 @@
 {% comment %}
   Snippet: product-modal.liquid
   Dynamically populated modal with proper color and size handling
-  Updated with colored rectangular bars for each color option
 {% endcomment %}
 
 <div class="product-modal" id="productModal" aria-hidden="true">
@@ -20,8 +19,9 @@
       <form class="product-form" id="modalProductForm">
         <div class="variant-selector color-selector">
           <label>Color</label>
-          <div class="color-options-container" id="colorOptionsContainer">
-            <!-- Color options with bars will be populated dynamically by JavaScript -->
+          <div class="color-options" id="colorOptions">
+            <!-- Colors will be populated dynamically by JavaScript based on product data -->
+            <!-- Fallback content in case JavaScript fails -->
             <div class="loading-placeholder">Loading colors...</div>
           </div>
         </div>
